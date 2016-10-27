@@ -977,7 +977,7 @@ angular.module('rpgApp',[])
                 if(poisonedEnemy1[0].poisoned === false || poisonedEnemy1[0].poisoned === undefined){
                   rpg.user.mp -= skill.mpCost;
                   var poisonDamage1 = $interval(function(){ poisonedEnemy1[0].poisoned = true; poisonedEnemy1[0].hp-= (5*skill.level);
-                    if(poisonedEnemy1[0].hp<=0){$interval.cancel(poisonDamage1); userTurnFn(selectedEnemy); rpg.userWaitShow = false; rpg.userShow=true; userWin();}
+                    if(poisonedEnemy1[0].hp<=0){$interval.cancel(poisonDamage1); userWin();}
                   },500);
                   $timeout(function(){$interval.cancel(poisonDamage1); poisonedEnemy1[0].poisoned = false; poisonCounter--;},5000);
                 }
@@ -987,7 +987,7 @@ angular.module('rpgApp',[])
                 if(poisonedEnemy2[0].poisoned === false || poisonedEnemy2[0].poisoned === undefined){
                   rpg.user.mp -= skill.mpCost;
                   var poisonDamage2 = $interval(function(){ poisonedEnemy2[0].poisoned = true; poisonedEnemy2[0].hp -= (5*skill.level);
-                    if(poisonedEnemy2[0].hp<=0){$interval.cancel(poisonDamage2); userTurnFn(selectedEnemy); rpg.userWaitShow = false; rpg.userShow=true; userWin();}
+                    if(poisonedEnemy2[0].hp<=0){$interval.cancel(poisonDamage2); userWin();}
                   },500);
                   $timeout(function(){$interval.cancel(poisonDamage2); poisonedEnemy2[0].poisoned = false; poisonCounter--;},5000);
                 }
@@ -997,7 +997,7 @@ angular.module('rpgApp',[])
                 if(poisonedEnemy3[0].poisoned === false || poisonedEnemy3[0].poisoned === undefined){
                   rpg.user.mp -= skill.mpCost;
                   var poisonDamage3 = $interval(function(){ poisonedEnemy3[0].poisoned = true; poisonedEnemy3[0].hp -= (5*skill.level);
-                    if(poisonedEnemy3[0].hp<=0){$interval.cancel(poisonDamage3); userTurnFn(selectedEnemy); rpg.userWaitShow = false; rpg.userShow=true; userWin();}
+                    if(poisonedEnemy3[0].hp<=0){$interval.cancel(poisonDamage3); userWin();}
                   },500);
                   $timeout(function(){$interval.cancel(poisonDamage3); poisonedEnemy3[0].poisoned = false; poisonCounter--;},5000);
                 }
