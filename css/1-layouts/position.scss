@@ -1,0 +1,120 @@
+$map: 20px;
+$map1top: 125px; $map1left: 195px;
+$map2-top: 125px; $map2-left: 195px;
+$map2-top-locked: 105px; $map2-left-locked: 235px;
+
+@for $i from 1 to 37{
+	.stage-map#{$i}{
+		background: url('../map/map#{$i}.png') center no-repeat;
+		height: 250px;
+		width: 250px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: default;
+		animation: return#{$i} 1s forwards;
+		position: absolute;top:$map#{$i}top;left:$map#{$i}left;
+	}
+	.stage-map#{$i}-locked{
+		animation: float#{$i} 1.5s linear alternate infinite;
+	}
+}
+
+
+
+
+.stage-map1{position: absolute;top:60px;left:20px;z-index: 2;}
+.stage-map2{height: 160px;}
+.stage-map34{position: absolute;top:217px;left:315px;height: 230px;width: 210px;}
+.stage-map3{position: absolute; top:285px;left:485px;}
+.stage-map4{position: absolute;top:270px;left:660px;}
+.stage-map5{position: absolute;top:163px;left:853px; width: 150px;}
+.stage-map6{position: absolute;top:190px;left:979px;height: 160px; width: 150px;}
+.stage-map7{position: absolute;top:285px;left:1053px;height: 160px; width: 160px;}
+.stage-map8{position: absolute;top:383px;left:1115px;height: 160px; width: 270px;}
+.stage-map9{position: absolute;top:495px;left:1188px;}
+.stage-map10{position: absolute;top:528px;left:1030px;}
+.stage-map11{position: absolute;top:570px;left:839px; height: 200px;}
+.stage-map12{position: absolute;top:698px;left:774px; height: 200px;}
+.stage-map13{position: absolute;top:753px;left:600px;}
+.stage-map35{position: absolute;top:770px;left:410px;}
+.stage-map14{position: absolute;top:883px;left:220px;}
+.stage-map15{position: absolute;top:947px;left:60px;}
+.stage-map16{position: absolute;top:1107px;left:75px;}
+.stage-map17{position: absolute;top:1188px;left:265px;}
+.stage-map18{position: absolute;top:1248px;left:440px; height: 160px;}
+.stage-map19{position: absolute;top:1340px;left:560px; height: 200px; width: 200px;}
+.stage-map20{position: absolute;top:1249px;left:710px;}
+.stage-map21{position: absolute;top:1281px;left:885px;z-index: 2;}
+.stage-map22{position: absolute;top:1090px;left:960px;}
+.stage-map23{position: absolute;top:1265px;left:1060px;z-index: 2;}
+.stage-map24{position: absolute;top:1265px;left:1265px; width: 160px;}
+.stage-map25{position: absolute;top:1273px;left:1392px;height: 300px; width: 160px;}
+.stage-map36{position: absolute;top:1437px;left:1532px; height: 160px; width: 200px;}
+.stage-map26{position: absolute;top:1489px;left:1619px;z-index: 2; height: 180px;}
+.stage-map27{position: absolute;top:1560px;left:1794px;height: 300px;}
+.stage-map28{position: absolute;top:1755px;left:1666px;}
+.stage-map29{position: absolute;top:1692px;left:1522px;}
+.stage-map30{position: absolute;top:1660px;left:1379px;}
+.stage-map31{position: absolute;top:1677px;left:1220px;}
+.stage-map32{position: absolute;top:1693px;left:1092px;}
+.stage-map33{position: absolute;top:1708px;left:772px;width: 350px;}
+
+
+.stage-map1{position: absolute;top:60px;left:20px;z-index: 2;}
+.stage-map2-locked{position: absolute;top:105px;left:235px;height: 160px;}
+.stage-map34{position: absolute;top:217px;left:315px;height: 230px;width: 210px;}
+.stage-map3-locked{position: absolute; top:325px;left:505px; animation-delay: .5s;}
+.stage-map4-locked{position: absolute;top:330px;left:740px;  animation-delay: .3s;}
+.stage-map5-locked{position: absolute;top:83px;left:853px; width: 150px;}
+.stage-map6-locked{position: absolute;top:135px;left:1009px;height: 160px; width: 150px; animation-duration: .95s;}
+.stage-map7-locked{position: absolute;top:225px;left:1153px;height: 160px; width: 160px; animation-delay: .1s;}
+.stage-map8-locked{position: absolute;top:363px;left:1035px;height: 160px; width: 270px;}
+.stage-map9-locked{position: absolute;top:495px;left:1238px; animation-delay: .4s;}
+.stage-map10-locked{position: absolute;top:628px;left:1060px;}
+.stage-map11{position: absolute;top:570px;left:839px; height: 200px;}
+.stage-map12{position: absolute;top:698px;left:774px; height: 200px;}
+.stage-map13{position: absolute;top:753px;left:600px;}
+.stage-map35{position: absolute;top:770px;left:410px;}
+.stage-map14{position: absolute;top:883px;left:220px;}
+.stage-map15{position: absolute;top:947px;left:60px;}
+.stage-map16{position: absolute;top:1107px;left:75px;}
+.stage-map17{position: absolute;top:1188px;left:265px;}
+.stage-map18{position: absolute;top:1248px;left:440px; height: 160px;}
+.stage-map19{position: absolute;top:1340px;left:560px; height: 200px; width: 200px;}
+.stage-map20{position: absolute;top:1249px;left:710px;}
+.stage-map21{position: absolute;top:1281px;left:885px;z-index: 2;}
+.stage-map22{position: absolute;top:1090px;left:960px;}
+.stage-map23{position: absolute;top:1265px;left:1060px;z-index: 2;}
+.stage-map24{position: absolute;top:1265px;left:1265px; width: 160px;}
+.stage-map25{position: absolute;top:1273px;left:1392px;height: 300px; width: 160px;}
+.stage-map36{position: absolute;top:1437px;left:1532px; height: 160px; width: 200px;}
+.stage-map26{position: absolute;top:1489px;left:1619px;z-index: 2; height: 180px;}
+.stage-map27{position: absolute;top:1560px;left:1794px;height: 300px;}
+.stage-map28{position: absolute;top:1755px;left:1666px;}
+.stage-map29{position: absolute;top:1692px;left:1522px;}
+.stage-map30{position: absolute;top:1660px;left:1379px;}
+.stage-map31{position: absolute;top:1677px;left:1220px;}
+.stage-map32{position: absolute;top:1693px;left:1092px;}
+.stage-map33{position: absolute;top:1708px;left:772px;width: 350px;}
+
+
+@keyframes return2 { 0%{top:$map2-top-locked;left:$map2-top-locked;} 100%{top:$map2-top;left:$map2-left;}}
+@keyframes return3 {0%{top:325px;left:505px;} 100%{top:285px;left:485px;}}
+@keyframes return4 { 0%{top:330px;left:740px; } 100%{top:270px;left:660px;}}
+@keyframes return5 {0%{top:83px;left:853px; } 100%{top:163px;left:853px;}}
+@keyframes return6 {0%{top:135px;left:1009px;} 100%{top:190px;left:979px;}}
+@keyframes return7 {0%{top:225px;left:1153px;} 100%{top:285px;left:1053px;}}
+@keyframes return8 {0%{top:363px;left:1035px;} 100%{top:383px;left:1115px;}}
+
+
+
+@keyframes float2 {0%{top:115px;} 20%{top:110px;} 40%{top:107px;} 50%{top:105px;} 60%{top:103px;} 80%{top:98px;} 100%{top:93px;}}
+@keyframes float3 { 0%{top:337px;} 20%{top:332px;} 40%{top:327px;} 50%{top:325px;} 60%{top:322px;} 80%{top:318px;} 100%{top:313px;}}
+@keyframes float4 {0%{top:342px;} 20%{top:337px;} 40%{top:332px;} 50%{top:330px;} 60%{top:327px;} 80%{top:323px;}100%{top:317px;}}
+@keyframes float5 {	0%{top:95px;} 20%{top:90px;} 40%{top:85px;} 50%{top:83px;} 60%{top:80px;} 80%{top:75px;} 100%{top:70px;}}
+@keyframes float6 { 0%{top:147px;} 20%{top:142px;} 40%{top:137px;} 50%{top:135px;} 60%{top:132px;} 80%{top:127px;} 100%{top:122px;}}
+@keyframes float7 { 0%{top:237px;} 20%{top:232px;} 40%{top:227px;} 50%{top:225px;} 60%{top:222px;} 80%{top:217px;} 100%{top:212px;}}
+@keyframes float8 { 0%{top:375px;} 20%{top:370px;} 40%{top:365px;} 50%{top:363px;} 60%{top:360px;} 80%{top:355px;} 100%{top:350px;}}
+@keyframes float9 { 0%{top:507px;} 20%{top:502px;} 40%{top:497px;} 50%{top:495px;} 60%{top:492px;} 80%{top:488px;} 100%{top:483px;}}
+@keyframes float9 { 0%{top:640px;} 20%{top:635px;} 40%{top:630px;} 50%{top:628px;} 60%{top:492px;} 80%{top:488px;} 100%{top:483px;}}

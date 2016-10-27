@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html ng-app="rpgApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>RPG</title>
+  <link rel="stylesheet" href="css/main.css" media="screen" title="no title" charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Nova+Flat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+  <div ng-controller="RpgCtrl" ng-class="{'outer-container-stuck': userInfoOptions || userInfoStatus || userInfoSkills || userInfoItems || userInfoEquipments}" class="outer-container">
+
+    <!-- FRONT PAGE -->
+    <div ng-show="frontPage" class="front-page">
+      <h1 class="front-title">GAME TITLE</h1>
+      <p class="front-start"ng-click="startGame()">Start</p>
+      <p ng-click="loadGame()" class="front-option">Load</p>
+    </div>
+
+    <div ng-show="loadShow" class="load-complete">
+      <p>Game load is successful!!!</p>
+      <p class="pointer" ng-click="loadShow=false">Cancel</p>
+    </div>
+
+    <div ng-show="loadNothingShow" class="load-complete">
+      <p>No saved file to load</p>
+      <p class="pointer" ng-click="loadNothingShow=false">Cancel</p>
+    </div>
+
+    <!-- STAGES-->
+    <div ng-show="worldMapStages" class="world-map-stages">
+      <div class="world-map-ref"></div>
+      <div ng-class="{'stage-clickable': stage.unlocked,'stage-map{{stage.index}}-locked':!stage.unlocked}" class="stage-map{{stage.index}}" ng-repeat="stage in mapFull">
+        <div ng-click="start(mapFull, stage)" class="stage-unlock">
+          <!-- STAGE UNLOCK NUMBER-->
+          <h1 ng-show="stage.unlocked && stage.index!== 11 && stage.index<34">{{stage.index}}</h1>
+          <!-- STAGE UNLOCK BOSS-->
+          <div class="stage-boss" ng-show="stage.unlocked && stage.index=== 11 "></div>
+          <!-- STAGE UNLOCK SHOP-->
+          <div class="stage-shop" ng-show="stage.unlocked && stage.index>=34"></div>
+          <!-- STAGE LOCK-->
+          <div class="stage-lock" ng-show="!stage.unlocked"></div>
+          <!-- UNLOCK ANIMATION-->
+          <div class="stage-unlock-ani" ng-show="stage.unlocked && stage.index===latestStage && unlock"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USER INFO -->
+    <div ng-show="saveShow" class="load-complete-modal">
+      <div class="load-complete">
+        <p>Game save is successful!!!</p>
+        <p class="pointer" ng-click="saveShow=false">Cancel</p>
+      </div>
+    </div>
+
+    <div ng-show="userNameShow" class="load-complete-modal">
+      <div class="user-name-box">
+        <label for="user-name-id">What's your name great adventurer? (Max length: 8)</label>
+        <input ng-class="{'too-long': rpg.userName.length>8}" id="user-name-id" type="text" ng-model="userName" name="name" value="">
+        <input ng-click="userNameSubmit()" type="submit" name="name" value="submit">
+        <div ng-show="userNameLongShow || userNameNoShow" class="user-name-cross"></div>
+        <p ng-show="userNameLongShow">Name is too long!!</p>
+        <p ng-show="userNameNoShow">Please input a name</p>
+      </div>
+    </div>
+
+    <div>
+      <div ng-show="userInfoIconShow" ng-click="userInfoOptions = true; userInfoIconShow=false;" class="user-info-icon">
+        <p>{{userName}}'s INFO</p>
+      </div>
+
+      <div ng-show="userInfoOptions" class="user-info-options">
+        <p class="pointer" ng-click="userInfoStatus = true; userInfoOptions=false">Status</p>
+        <p class="pointer" ng-click="enterSkills()">Skills</p>
+        <p class="pointer" ng-click="enterEquipments()">Equipments</p>
+        <p class="pointer" ng-click="enterItems()">Items</p>
+        <p class="pointer" ng-click="saveGame()">Save</p>
+        <p class="pointer" ng-click="userInfoOptions = false; userInfoIconShow=true;">Cancel</p>
+      </div>
+
+      <!-- USER INFO STATUS-->
+      <div ng-show="userInfoStatus" class="outer-container-info-status">
+        <div  class="user-info-status">
+          <main>
+            <div class="user-info-status-left">
+              <ul>
+                <li class="info-status-well"> <span class="status-hp-bar">HP</span> <span class="status-stats-info"> {{user.hp}}/{{user.maxHp}}</span> <span ng-show="user.statPoints" ng-click="userStatusHpLevelUp()" class="arrow-up arrow-hp"></span></li>
+                <li class="info-status-well"> <span class="status-mp-bar">MP</span> <span class="status-stats-info"> {{user.mp}}/{{user.maxMp}}</span> <span ng-show="user.statPoints" ng-click="userStatusMpLevelUp()" class="arrow-up arrow-hp"></span></li>
+                <li class="status-str"><div class="status-str-icon"></div>STR: {{user.str}} <span ng-show="user.statPoints" ng-click="userStatusStrLevelUp()" class="arrow-up arrow-str"></span></li>
+                <li class="status-def"><div class="status-def-icon"></div>DEF: {{user.def}} <span ng-show="user.statPoints" ng-click="userStatusDefLevelUp()" class="arrow-up arrow-str"></span></li>
+                <li class="status-int"><div class="status-int-icon"></div>INT: {{user.int}} <span ng-show="user.statPoints" ng-click="userStatusIntLevelUp()" class="arrow-up arrow-str"></span></li>
+                <li class="status-speed"><div class="status-speed-icon"></div>SPEED: {{user.speed}} <span ng-show="user.statPoints" ng-click="userStatusSpeedLevelUp()" class="arrow-up arrow-str"></span></li>
+              </ul>
+            </div>
+            <div class="user-info-status-right">
+              <ul>
+                <li class="info-status-well"><span class="status-stats-bar">LEVEL </span><span class="status-stats-info"> {{user.level}}</span></li>
+                <li class="info-status-well"><span class="status-stats-bar">EXP</span><span class="status-stats-info">{{user.exp}}/{{user.maxExp}}<span></li>
+                <li class="info-status-well"><span class="status-stats-bar">CROWNE</span> <span class="status-stats-info"> {{user.crowne}}<span></li>
+                <li class="info-status-well"><span class="status-stats-bar">DAMAGE</span> <span class="status-stats-info"> {{user.damage}}<span></li>
+                <li class="info-status-well"><span class="status-stats-bar">MAGIC DMG</span>  <span class="status-stats-info">{{user.magicDamage}}<span></li>
+                <li class="info-status-well"><span class="status-stats-bar">COOLDOWN</span> <span class="status-stats-info"> {{user.coolDown}}<span></li>
+              </ul>
+            </div>
+          </main>
+          <footer>
+            <p>Status points : {{user.statPoints}}</p>
+            <p class="pointer" ng-click="userInfoStatus = false; userInfoOptions=true">Cancel</p>
+          </footer>
+        </div>
+      </div>
+
+      <!-- USER INFO SKILLS V2-->
+      <div ng-show="userInfoSkills" class="outer-container-info-status">
+        <div class="user-info-skills">
+          <header>
+            <ul class="user-info-skills-header">
+              <li class="pointer" ng-class="{'selected': choosenClass === 'rogue'}" ng-click="choosenClass = 'rogue'">Rogue</li>
+              <li class="pointer" ng-class="{'selected': choosenClass === 'knight'}" ng-click="choosenClass = 'knight'">Knight</li>
+              <li class="pointer" ng-class="{'selected': choosenClass === 'magician'}" ng-click="choosenClass = 'magician'">Magician</li>
+              <li>???</li>
+            </ul>
+          </header>
+          <main>
+            <div class="user-info-skills-left">
+              <ul class="user-info-skills-main">
+                <li class="user-skill-well" ng-click="userSkillCheck(skillsDatabase, skill)" ng-repeat="skill in skillsDatabase | filter:{class : choosenClass} " ng-class="{'locked': !skill.unlocked, 'user-skill-selected': skill.selected}">
+                  <div class="info-skill-img{{skill.index}}"></div>
+                  <p class="info-skill-text">{{skill.name}} <br> Lv: {{skill.level}}</p>
+                  <span ng-show="user.skillPoints && skill.unlocked && !skill.complete" ng-click="userSkillLevelUp(skillsDatabase, skill)" class="arrow-up-skill"></span>
+                  <input class="info-skill-show" ng-show="skill.level > 0" ng-model="skill.checked" type="checkbox" name="name" value="">
+                  <div ng-show="skill.level > 0" class="info-skill-eye"></div>
+                </li>
+              </ul>
+            </div>
+            <div class="user-info-skills-right">
+              <div class="user-info-skills-description">
+                <p>Mp Cost : {{userSkillSelectedMp}}</p>
+                <p ng-show="!userSkillSelectedUnlocked">Prerequisite : {{userSkillSelectedPrerequisite}}</p>
+                <p ng-repeat="description in userSkillSelectedDescription">{{description}}</p>
+              </div>
+            </div>
+          </main>
+          <footer class="user-info-skills-footer">
+            <p>Skill points available : {{user.skillPoints}}</p>
+            <p class="pointer" ng-click="exitSkills()">Cancel</p>
+          </footer>
+        </div>
+      </div>
+
+      <!-- USER INFO ITEMS-->
+      <div ng-show="userInfoItems" class="user-info-items">
+        <header>
+          <ul class="user-info-items-header">
+            <li class="pointer" ng-class="{'selected': choosenCategory === ''}" ng-click="choosenCategory = ''">ALL</li>
+            <li class="pointer" ng-class="{'selected': choosenCategory === 'consumables'}" ng-click="choosenCategory = 'consumables'">CONSUMABLES</li>
+            <li class="pointer" ng-class="{'selected': choosenCategory === 'miscs'}" ng-click="choosenCategory = 'miscs'">MISCELLANEOUS</li>
+            <li class="pointer" ng-class="{'selected': choosenCategory === 'quests'}" ng-click="choosenCategory = 'quests'">QUEST</li>
+          </ul>
+        </header>
+        <main>
+          <ul class="user-info-items-main">
+            <li ng-class="{'selected': item.userItemSelected}" ng-click="userItemCheck(items, item)"  ng-repeat="item in items | filter:{category : choosenCategory}">
+              <div class="user-item-img{{item.index}}"></div>
+              <br>
+              <p>{{item.name}} x {{item.num}}</p>
+            </li>
+          </ul>
+        </main>
+        <footer>
+          <div ng-show="items.length > 0" class="user-info-items-description">
+            <p>{{userItemSelectedDescription}}</p>
+            <p> HP: ({{user.hp}}/{{user.maxHp}})</p>
+            <p> MP: ({{user.mp}}/{{user.maxMp}})</p>
+          </div>
+          <div class="user-info-items-options">
+            <p ng-show="userItemSelectedCategory === 'consumables'" ng-click="inventoryItemUse()">Use</p>
+            <p class="pointer" ng-click="inventoryItemCancel()">Cancel</p>
+          </div>
+        </footer>
+      </div>
+
+      <!-- USER INFO EQUIPMENTS-->
+      <div ng-show="userInfoEquipments" class="user-info-equipments">
+        <header>
+          <ul class="user-info-equipments-header">
+            <li class="pointer" ng-class="{'selected': userInfoEquipmentEquiped === true}" ng-click="userInfoEquipmentEquiped = true">EQUIPED</li>
+            <li class="pointer" ng-class="{'selected': choosenEquipmentCategory === 'headgear' && userInfoEquipmentEquiped !== true}" ng-click="choosenEquipmentCategory = 'headgear'; userInfoEquipmentEquiped = false">HEADGEARS</li>
+            <li class="pointer" ng-class="{'selected': choosenEquipmentCategory === 'body' && userInfoEquipmentEquiped !== true}"ng-click="choosenEquipmentCategory = 'body'; userInfoEquipmentEquiped = false">BODY</li>
+            <li class="pointer" ng-class="{'selected': choosenEquipmentCategory === 'weapon' && userInfoEquipmentEquiped !== true}"ng-click="choosenEquipmentCategory = 'weapon'; userInfoEquipmentEquiped = false">WEAPONS</li>
+            <li class="pointer" ng-class="{'selected': choosenEquipmentCategory === 'accessory' && userInfoEquipmentEquiped !== true}"ng-click="choosenEquipmentCategory = 'accessory'; userInfoEquipmentEquiped = false">ACCESSORIES</li>
+          </ul>
+        </header>
+        <main>
+          <ul class="user-info-equipments-main">
+            <li ng-show="userInfoEquipmentEquiped" ng-class="{'selected': equiped.userEquipedSelected}" ng-click="userEquipedCheck(equipeds, equiped)"  ng-repeat="equiped in equipeds">
+              <div class="user-equiped-img{{equiped.index}}"></div>
+              <br>
+              {{equiped.name}}
+            </li>
+            <li ng-show="!userInfoEquipmentEquiped" ng-class="{'selected': equipment.userEquipmentSelected}" ng-click="userEquipmentCheck(equipments, equipment)"  ng-repeat="equipment in equipments | filter:{categoryRef : choosenEquipmentCategory}">
+              <div class="user-equipment-img{{equipment.index}}"></div>
+              <br>
+              <p>{{equipment.name}} x {{equipment.num}}</p>
+            </li>
+          </ul>
+        </main>
+        <footer>
+          <div class="user-info-equipments-description">
+            <p ng-show="userInfoEquipmentEquiped">{{userEquipedSelectedDescription}}</p>
+            <p ng-show="!userInfoEquipmentEquiped">{{userEquipmentSelectedDescription}}</p>
+          </div>
+          <div class="user-info-equipments-options">
+            <p class="pointer" ng-show="userInfoEquipmentEquiped" ng-click="unequip()">Unequip</p>
+            <p class="pointer" ng-show="!userInfoEquipmentEquiped" ng-click="equip()">Equip</p>
+            <p class="pointer" ng-click="equipCancel()">Cancel</p>
+          </div>
+        </footer>
+      </div>
+
+    <!-- SHOP -->
+    <div ng-show="shopShow" class="shop">
+      <!-- SHOP : FRONT PAGE -->
+      <div ng-show="shopFrontShow" class="shop-frontpage">
+        <div class="shop-money"><h1>{{user.crowne}} crowne</h1></div>
+        <div class="shop-pic"></div>
+        <div class="shop-options">
+          <li class="pointer" ng-click="enterBuy()">BUY</li>
+          <li class="pointer" ng-click="enterSell()">SELL</li>
+          <li>???</li>
+          <li class="pointer" ng-click="exitShop()">EXIT</li>
+        </div>
+      </div>
+
+      <!-- SHOP : BUY -->
+      <div ng-show="shopBuyShow" class="shop-buy">
+        <div class="shop-buy-items">
+          <div class="shop-money"><h1>{{user.crowne}} crowne</h1></div>
+          <li ng-class="{'selected': item.selected}" ng-click="itemBuyCheck(shop, item)" ng-repeat="item in shop">
+            <div class="shop-item-img{{item.index}}"></div>
+            {{item.name}} - {{item.price}} crowne
+          </li>
+        </div>
+        <div class="shop-buy-information">
+          <div class="shop-buy-description">
+            <p>Num: {{itemSelectedNum}} <br>{{selectedDescription}}</p>
+          </div>
+          <div class="shop-buy-options">
+            <p class="pointer" ng-click="buyItem()">Buy</p>
+            <p class="pointer" ng-click="shopBuyShow = false; shopFrontShow = true">Exit</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOP : SELL -->
+      <div ng-show="shopSellShow" class="shop-sell">
+        <div class="shop-sell-items">
+          <div class="shop-money"><h1>{{user.crowne}} crowne</h1></div>
+          <li ng-class="{'selected': item.sellSelected}" ng-click="itemSellCheck(items, item)" ng-repeat="item in items">
+            <div class="shop-item-img{{item.index}}"></div>
+            {{item.name}} x {{item.num}}- {{item.price/2}} crowne
+          </li>
+          <li ng-class="{'selected': equip.sellSelected}" ng-click="itemSellCheckEq(equipments, equip)" ng-repeat="equip in equipments">
+            <div class="shop-equip-img{{equip.index}}"></div>
+            {{equip.name}} x {{equip.num}}- {{equip.price/2}} crowne
+          </li>
+        </div>
+        <div class="shop-sell-information">
+          <div class="shop-sell-description">
+            <p>{{selectedSellDescription}}</p>
+          </div>
+          <div class="shop-sell-options">
+            <p class="pointer" ng-click="sellItem()">Sell</p>
+            <p class="pointer" ng-click="exitSell()">Exit</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTION -->
+    <div ng-show="actionShow" class="action">
+      <!-- ACTION : ENEMY -->
+      <div class="enemy-flex">
+        <div ng-class="{'enemy-dead': enemy.hp===0}" ng-repeat="enemy in enemies" class="new-enemy-1">
+    	  	<p class="enemy-hp"> HP : {{enemy.hp}}/{{enemy.maxHp}}</p>
+    	  	<!--<p class="enemy-mp"> MP : {{enemy.mp}}/{{enemy.maxMp}}</p>-->
+          <div ng-click="enemySelect(enemies, enemy)" ng-class="{'selected': enemy.click}" class="enemy-container">
+            <div class="pointer" ng-class="{'enemy-{{enemy.name}}': enemy.hp, 'enemy-attack-{{enemy.name}}': enemy.attack, 'enemy-dead-gone': enemy.hp===0}"></div>
+            <div ng-class="{'enemy-attacked' : enemy.strike}"></div>
+          </div>
+    	  	<p>{{enemy.name}}</p>
+    	  </div>
+    	</div>
+    	<!-- ACTION : USER TURN WAIT-->
+    	<div ng-show="userWaitShow" class="user-wait">
+        <div class="user-wait-clock"></div>
+    	</div>
+      <div ng-show="levelUpShow" class="user-level-up"></div>
+    	<!-- ACTION : USER OPTION -->
+      <ul ng-show="userShow" class="user-option">
+    	  <li ng-click="userAttack()" class="attack">ATTACK</li>
+    	  <li ng-click="userShow=false; itemShow = true" class="item">ITEM</li><br>
+    	  <li ng-click="userShow=false; skillShow = true" class="skill">SKILL</li>
+    	  <li ng-click="run()"class="run">RUN</li>
+    	</ul>
+    	<!-- ACTION : USER ITEM -->
+    	<ul ng-show="itemShow" class="user-item">
+        <li ng-repeat="item in items | filter:{category : 'consumables'} " ng-click="itemUse(item)">
+          <div class="action-item-img{{item.index}}"></div>
+          {{item.name}} x {{item.num}}
+        </li>
+    	  <li class="pointer" ng-click="userItemCancel()">Cancel</li>
+    	</ul>
+    	<!-- ACTION : USER SKILL-->
+    	<ul ng-show="skillShow" class="user-skill">
+        <li ng-repeat="skill in skills | filter:{checked: true}" ng-click="$eval(skill.fn)" class="fire-arrow">
+          <div class="action-skill-img{{skill.index}}"></div>
+          {{skill.name}} <span class="mp-cost">MP cost : {{skill.mpCost}}</span>
+        </li><br>
+    	  <li class="pointer" ng-click="skillShow = false; userShow=true">Cancel</li>
+    	</ul>
+      <ul ng-show="skillNoMpShow" class="user-skill">
+        <li> Not enough mp </li>
+      </ul>
+      <!-- ACTION : USER RUN -->
+      <div ng-show="runSuccessShow" class="user-win">
+        <p>{{userName}} runs successfully</p>
+        <p ng-click="runSuccess()" >OKAY</p>
+      </div>
+      <div ng-show="runFailureShow" class="user-lose">
+        <p>{{userName}} fails to run.</p>
+        <p ng-click="runFailure()">OKAY</p>
+      </div>
+    	<!-- ACTION : END POINT -->
+    	<div ng-show="winShow" class="user-win">
+    		<p>{{userName}} wins the battle. Earned {{rewardExp}} EXP. Obtained {{rewardCrowne}} crownes.</p>
+        <p class="pointer" ng-click="next()" >NEXT</p>
+    	</div>
+      <div ng-show="levelUpShow" class="user-win">
+        <p>{{userName}} levels up!!</p>
+        <p class="pointer" ng-click="nextLevelUp()" >NEXT</p>
+      </div>
+    	<div ng-show="loseShow" class="user-lose">
+    		<p>{{userName}} loses the battle. Better train harder.</p>
+        <p class="pointer" ng-click="loseBack()" >BACK</p>
+    	</div>
+    	<!-- ACTION : USER LIFE -->
+    	<div class="user-life">
+        <p class="user-hp">HP : <span ng-class="{'hp-damage': enemies[0].attack || enemies[1].attack || enemies[2].attack}">{{user.hp}}</span>/{{user.maxHp}}</p>
+        <p class="user-mp">MP : {{user.mp}}/{{user.maxMp}}</p>
+        <p class="enemy-damage" ng-show="damageShow{{enemies[0].index}}">-{{enemies[0].damageUser}} from {{enemies[0].name}}</p>
+        <p class="enemy-damage" ng-show="damageShow{{enemies[1].index}}">-{{enemies[1].damageUser}} from {{enemies[1].name}}</p>
+        <p class="enemy-damage" ng-show="damageShow{{enemies[2].index}}">-{{enemies[2].damageUser}} from {{enemies[2].name}}</p>
+    	</div>
+    </div>
+  </div>
+</body>
+</html>

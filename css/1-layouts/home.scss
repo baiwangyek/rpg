@@ -1,0 +1,1744 @@
+/******************************
+BEHIND THE SCENES
+*****************************/
+
+*{
+	box-sizing: border-box;
+	font-family: 'Nova Flat', cursive;
+}
+
+.pointer{
+	cursor: pointer;
+}
+
+body{
+	overflow: hidden;
+	//overflow: auto;
+}
+
+.outer-container{
+//	border: 1px solid black;
+	width: 700px;
+	height: 550px;
+	margin: 0 auto;
+	position: relative;
+	overflow: auto;
+	//overflow: hidden;
+	//background: rgb(125, 125, 125);
+	background: linear-gradient(rgba(109, 185, 227,.3),rgba(3, 0, 102,.5));
+	background: linear-gradient(rgba(170,227,246,.8),rgba(3, 0, 102,.5));
+
+	//background: rgba(109, 185, 227,.3);
+}
+
+.user-level-up{
+	position: absolute;
+	top:0px;
+	background: white;
+	width: 680px;
+	height: 530px;
+}
+
+.user-level-up:after{
+  content: "";
+  position: absolute;
+	top: 10px;
+  width: 680px;
+  height: 550px;
+  background: url('../fireworks.png') center no-repeat;
+  background-size: 1400%;
+  animation: fireAni steps(14) 1.3s forwards;
+}
+
+@keyframes fireAni {
+  0%{background-position: left;}
+  100%{background-position: right;}
+}
+
+/**********************
+FRONT PAGE
+***********************/
+.front-page{
+	width: 700px;
+	height: 550px;
+	background-position: center;
+	background-size: cover;
+
+	p{
+		font-size: 25px;
+		margin: 0 auto;
+	}
+}
+
+.front-title{
+	padding-top: 100px;
+	font-size: 100px;
+	text-align: center;
+	font-family: 'Nova Flat', cursive;
+	color: black;
+	text-shadow: 0px 2px 1px white;
+}
+
+.front-start, .front-option{
+	font-size: 20px;
+	cursor: pointer;
+	text-align: center;
+	font-family: 'Nova Flat', cursive;
+	color: white;
+	text-shadow: 0px 2px 1px black;
+}
+
+.front-start{
+	margin-top: 100px;
+	margin-bottom: 10px !important;
+	position: relative;
+}
+
+.front-start:hover{
+	animation: bounce .5s alternate infinite;
+}
+
+@keyframes bounce {
+	0%{top: -5px;}
+	12%{top:-4px;}
+	25%{top:-3px;}
+	37%{top:-2px;}
+	50%{top: 0px;}
+	63%{bottom:-2px;}
+	75%{bottom: -3px;}
+	87%{bottom: -4px;}
+	100%{bottom: -5px;}
+}
+
+.stage-clickable{
+	cursor: pointer;
+}
+
+.load-complete{
+	//position: absolute;
+	position: fixed;
+	top: 300px;
+	margin-left: 200px;
+	//left: 200px;
+	height: 100px;
+	width: 300px;
+	background: white;
+	border: 2px solid black;
+	border-radius: 5px;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+	z-index: 30;
+}
+
+.load-complete-modal{
+	position: fixed;
+	height: 550px;
+	width: 700px;
+	//position: absolute;
+	top: 8px;
+	//left:0px;
+	z-index: 30;
+	background: rgba(100,100,100,.8);
+}
+
+.user-name-box{
+	@extend .load-complete;
+	//left: 130px;
+	position: fixed;
+	margin-left: 100px;
+	height: auto;
+	width: auto;
+	input[type=submit]{
+		font-family: 'Nova Flat', cursive;
+		color: white;
+		float: left;
+	}
+	.user-name-cross{
+		background: url('../cross-flat.png') center no-repeat;
+		background-size: cover;
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: 108px;
+		left: 130px;
+	}
+	p{
+		margin-left: 40px;
+		margin-top: 8px;
+		display: inline-block;
+		color: tomato;
+	}
+
+}
+
+/**************************
+STAGES
+**************************/
+@for $k from 1 through 3{
+	.map-bg#{$k}{
+		padding-top: 10px;
+		background: linear-gradient(rgba(150,150,150,.5), rgba(150,150,150,.4)), url('../map/newmap/map#{$k}.png') no-repeat;
+		background-size: cover;
+		background-position: center;
+		height: 100%;
+	}
+}
+
+.back-arrow{
+	background: url('../back.png') no-repeat;
+	background-position: center;
+	background-size: cover;
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	transform: rotateY(180deg);
+	cursor: pointer;
+}
+
+.map-stage-flex{
+	display: flex;
+	flex-wrap: wrap;
+	height: 250px;
+	width: 500px;
+	//background: pink;
+	justify-content: space-around;
+	margin-top: 70px;
+	margin-left: 100px;
+}
+
+.stage-circle:last-child{
+	margin-top: 80px;
+}
+
+@keyframes grow {
+	0%{transform: scale(1);}
+	100%{transform: scale(1.1);}
+}
+
+.stage-lock{
+	background: url('../lock.png') no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 30px;
+	width: 30px;
+}
+
+.stage-boss{
+	background: url('../crown.png') no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 30px;
+	width: 30px;
+}
+
+.stage-shop{
+	background: url('../shopnew.png') no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 30px;
+	width: 30px;
+}
+
+.stage-unlock-ani{
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255,.7);
+	border:1px solid black;
+	animation: gone .01s forwards 1s;
+	&:after{
+	  content: "";
+	  position: absolute;
+	  top: 10px;
+	  left: 10px;
+	  width: 30px;
+	  height: 30px;
+	  background: url('../lockAniYellow.png') center no-repeat;
+	  background-size: 2500%;
+	  animation: lockAni steps(24) 1s forwards;
+	}
+}
+
+@keyframes gone {
+0%{visibility: visible;}
+100%{visibility: hidden;}
+}
+
+@keyframes lockAni {
+  0%{background-position: left;}
+  100%{background-position: right;}
+}
+
+/*****************
+ENEMY
+******************/
+
+.enemy-flex{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 20px;
+}
+
+.enemy-container{
+	width: 200px;
+	height: 150px;
+	//height: 120px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.enemy-dead{
+	top: 0px;
+	left: 0px;
+	position: relative;
+	animation: disappear .8s forwards;
+}
+
+.enemy-dead-gone{
+	visibility: hidden;
+}
+
+@keyframes disappear{
+	0%{opacity: 1; visibility: visible;}
+	100%{opacity: 0; visibility: hidden;}
+}
+
+.enemy-attacked{
+	position: absolute;
+	height: 150px;
+	width: 200px;
+	top: 0px;
+	left: 0px;
+	background: url('../strike.png') no-repeat;
+	animation: strickAni steps(9) .5s forwards;
+}
+
+.enemy-attack{
+	height: 120px;
+	width: 120px;
+	top: 20px;
+	left: 40px;
+}
+
+@for $i from 1 through 30{
+	.enemy-M#{$i}{
+		background: url('../monster/m#{$i}.png') no-repeat center;
+		background-size: cover;
+		height: 120px;
+		width: 120px;
+		top: 20px;
+		left: 40px;
+		position: relative;
+	}
+	.enemy-attack-M#{$i}{
+		@extend .enemy-attack;
+		background: url('../monster/attack/m#{$i}-attack.png') no-repeat center;
+		background-size: 700%;
+		animation: strickAni steps(6) 1s forwards;
+	}
+}
+
+.hp-damage{
+	position: relative;
+	animation: triggered .5s linear;
+}
+
+@keyframes triggered {
+	0%{left: 0px;}
+	5%{left:1px;}
+	10%{left: 2px;}
+	15%{left: 3px;}
+	20%{left: 2px;}
+	25%{left: 1px;}
+	30%{left: 0px;}
+	35%{left: -1px;}
+	40%{left: -2px;}
+	45%{left: -3px;}
+	50%{left: -2px;}
+	55%{left: -1px;}
+	60%{left:0px;}
+	65%{left: 1px;}
+	70%{left: 2px;}
+	75%{left: 3px;}
+	80%{left: 2px;}
+	85%{left: 1px;}
+	90%{left: 0px;}
+	95%{left: -1px;}
+	100%{left:-2px;}
+
+}
+
+@keyframes strickAni  {
+	0%{background-position: left;}
+	100%{background-position: right;}
+
+}
+
+.selected{
+	border-radius: 2px;
+  box-shadow: 0px 0px 1px 5px yellow;
+}
+
+.new-enemy-1, .new-enemy-2, .new-enemy-3{
+	margin: 0 10px;
+}
+
+.enemy-damage{
+	margin-bottom: 0px;
+}
+
+/*****************************
+USER ACTIONS
+****************************/
+.user-wait{
+	height: 100px;
+}
+
+.user-wait-clock{
+	width: 80px;
+	height: 80px;
+	background: url('../mac.png') center no-repeat;
+	background-size: cover;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.user-option, .user-item, .user-skill, .user-wait, .user-win, .user-lose{
+	border: 2px solid black;
+	border-radius: 5px;
+	position: relative;
+	list-style: none;
+	width: 300px;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.user-item, .user-skill{
+	max-height: 150px;
+	overflow-y: auto;
+}
+
+.user-skill{
+	width: 380px;
+	overflow-x: auto;
+}
+
+.user-win, .user-lose{
+	padding: 20px;
+}
+
+.attack,.item, .skill, .run {
+	display: inline-block;
+	margin: 5px 40px;
+	cursor: pointer;
+}
+
+.skill{
+	margin-right: 60px;
+}
+
+.user-item > li{
+	cursor: pointer;
+	margin: 5px 0;
+}
+
+.user-skill > li{
+	display: inline-block;
+	margin: 5px 15px;
+}
+
+.mp-cost{
+	cursor: default;
+	padding-left: 30px;
+}
+
+.fire-arrow, .lightning-bolt, .ice-spear{
+	cursor: pointer;
+}
+
+.user-life{
+	text-align: center;
+	margin-top: 50px;
+}
+
+.user-hp, .user-mp{
+	display: inline-block;
+	margin: 0 10px;
+}
+
+/*********************
+SHOP
+**********************/
+.map-shop{
+	position: absolute;
+	top: 110px;
+	right: 25px;
+	padding: 10px;
+	background: url('../shopnew.png') no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 60px;
+	width: 60px;
+	cursor: pointer;
+	font-family: 'Nova Flat', cursive;
+	color: white;
+	text-shadow: 0px 2px 1px black;
+	p{
+		margin-top: 50px;
+		margin-left: 0px;
+		width: 100px;
+	}
+	&:hover{
+		animation: shake .5s linear;
+	}
+}
+
+@keyframes shake {
+	0%{transform: rotate(5deg)}
+	20%{transform: rotate(-5deg)}
+	20%{transform: rotate(5deg)}
+	40%{transform: rotate(-5deg)}
+	60%{transform: rotate(5deg)}
+	80%{transform: rotate(-5deg)}
+	100%{transform: rotate(5deg)}
+}
+
+.shop-money{
+	position: absolute;
+	background: white;
+	padding: 10px 10px 0px;
+	right: 0px;
+	border: 2px solid black;
+	z-index: 20;
+}
+
+.shop-frontpage{
+	position: fixed;
+	margin: 0 auto;
+	background: white;
+	height: 550px;
+	width: 700px;
+	overflow: hidden;
+	z-index: 10;
+	box-shadow: 0px 0px 3px black;
+}
+
+.shop-pic{
+	background: tomato;
+	height: 300px;
+	width: 100%;
+	z-index: 20;
+}
+
+.shop-options{
+	list-style: none;
+	font-size: 50px;
+	display: flex;
+	width: 100%;
+	flex-wrap: wrap;
+	z-index: 10;
+	background: white;
+	li{
+		margin: 0px 100px;
+		margin-top: 20px;
+		z-index: 10;
+
+	}
+}
+
+.shop-buy-items, .shop-sell-items{
+	list-style: none;
+	font-size: 20px;
+	height:410px;
+	overflow-y: auto;
+	width: 100%;
+	padding: 40px;
+	z-index: 20;
+	background: white;
+	position: fixed;
+	margin: 0 auto;
+	background: white;
+	height: 400px;
+	width: 700px;
+	overflow: auto;
+	z-index: 10;
+	.shop-money{
+		top: 0px;
+		h1{
+			font-size: 18px;
+		}
+	}
+	li{
+		margin-bottom: 20px;
+	}
+}
+
+.shop-buy-information, .shop-sell-information{
+		border-top: 2px solid black;
+		position: fixed;
+		margin: 0 auto;
+		background: white;
+		height: 155px;
+		width: 700px;
+		overflow: hidden;
+		z-index: 10;
+		top: 405px;
+}
+
+.shop-buy-description, .shop-sell-description{
+	padding: 10px;
+	width: 60%;
+	height: 140px;
+	overflow-y: scroll;
+	float: left;
+}
+
+.shop-buy-options, .shop-sell-options{
+	width: 40%;
+	float: right;
+	height: 150px;
+	border-left: 2px solid black;
+	text-align: center;
+	font-size: 20px;
+	padding-top: 20px;
+}
+
+/*****************************
+USER INFO
+******************************/
+.user-info-icon{
+	position: fixed;
+	top: 0px;
+	//left: 30px;
+	//left: 20%;
+	margin-left: 20px;
+	background: steelblue;
+	padding: 10px;
+	background: url('../book.png') no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 70px;
+	width: 70px;
+	cursor: pointer;
+	z-index: 20;
+	&:hover{
+		animation: shake .5s linear;
+	}
+	p{
+		margin-top: 50px;
+		margin-left: -20px;
+		width: 100px;
+		font-family: 'Nova Flat', cursive;
+		color: white;
+		text-shadow: 0px 2px 1px black;
+	}
+}
+
+.user-info-options{
+	//position: absolute;
+	position: fixed;
+	top: 8px;
+	//left: 0px;
+	padding: 20px;
+	height: 550px;
+	background: white;
+	border: 2px solid black;
+	border-radius: 5px;
+	z-index: 25;
+	p{
+		font-size: 20px;
+	}
+}
+
+.user-info{
+	//position: absolute;
+	position: fixed;
+	top: 50px;
+	//left: 0px;
+	margin-left: -300px;
+	//margin-left: 50px;
+	width: 600px;
+	height: 450px;
+	background: white;
+	border: 2px solid;
+	border-radius: 5px;
+	z-index: 300;
+}
+
+/************************
+USER INFO STATUS
+**************************/
+.outer-container-info-status{
+	//position: absolute;
+	position: fixed;
+	top: 10px;
+	background: rgba(100,100,100,.8);
+	width: 700px;
+	height: 550px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 30;
+}
+
+.user-info-status{
+	@extend .user-info;
+	.user-info-status-left{
+		width: 50%;
+		float: left;
+		height: 350px;
+		border-right: 2px solid black;
+		padding: 20px;
+	}
+	.user-info-status-right{
+		width: 50%;
+		float: right;
+		padding: 20px;
+	}
+	footer{
+		height: 100px;
+		width: 100%;
+		border-top: 2px solid black;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		p{
+			padding: 0px 50px;
+		}
+	}
+}
+
+.info-status-well{
+	background: rgba(240,240,240,1);
+	border: 1px solid rgba(100,100,100,1);
+	box-shadow: inset 0px 1px 5px rgba(150,150,150,.5);
+	border-radius: 2px;
+	position: relative;
+	margin-bottom: 5px;
+}
+
+.info-status-bar{
+	border-radius: 2px;
+	display: inline-block;
+	width: 50px;
+	color: white;
+	padding-left: 10px;
+	text-shadow: 0px 0px 2px black;
+}
+
+.status-hp-bar{
+	@extend .info-status-bar;
+	margin-right: 20px;
+	background: rgba(206, 85, 115, 1);
+	border: 1px solid rgba(156,48,99,1);
+}
+
+.status-mp-bar{
+	@extend .info-status-bar;
+	margin-right: 20px;
+	background: rgba(82, 135, 189, 1);
+	border: 1px solid rgba(66,101,140,1);
+}
+
+.status-stats-bar{
+	@extend .info-status-bar;
+	margin-right: 0px;
+	width: 120px;
+	background: rgba(184, 201, 78, 1);
+	border: 1px solid rgba(130,140,26,1);
+}
+
+.status-stats-info{
+	text-align: center;
+	display: inline-block;
+	width: 120px;
+}
+
+
+.arrow-hp{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+.status-stats-icon{
+	width: 50px;
+	height: 50px;
+	margin: 0 auto;
+}
+
+.status-str-icon{
+	@extend .status-stats-icon;
+	background: url('../stat/str.png') no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+.status-def-icon{
+	@extend .status-stats-icon;
+	background: url('../stat/def.png') no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+.status-int-icon{
+	@extend .status-stats-icon;
+	background: url('../stat/int.png') no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+.status-speed-icon{
+	@extend .status-stats-icon;
+	background: url('../stat/speed.png') no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+.status-str, .status-def, .status-int, .status-speed{
+	display: inline-block;
+	margin: 20px 10px 0px;
+//	background: rgba(100,80,80,1);
+	position: relative;
+	border: 1px solid black;
+	border-radius: 2px;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	background: rgba(240,240,240,1);
+	box-shadow: inset 0px 1px 5px rgba(150,150,150,.5);
+}
+
+.arrow-str{
+	display: block !important;
+	margin: 0 auto;
+	position: absolute !important;
+	left: 40px;
+}
+
+.locked{
+	color: gray;
+}
+
+.arrow-up{
+	background: url('../arrow_up.png') no-repeat;
+	background-size: cover;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+/************************
+USER INFO SKILL
+**************************/
+
+@for $a from 1 to 19{
+	.info-skill-img#{$a}{
+		width: 50px;
+		height: 50px;
+		background: url('../skill/skill#{$a}.png') no-repeat center;
+		background-size: cover;
+		display: inline-block;
+	}
+}
+
+.user-skill-well{
+	position: relative;
+	margin-bottom: 10px;
+	height: 50px;
+}
+
+.user-skill-selected{
+	border-radius: 2px;
+	box-shadow: 0px 0px 1px 5px yellow;
+}
+
+.info-skill-text{
+	display: inline-block;
+	position: absolute;
+	top: 0px;
+	left: 70px;
+}
+
+.arrow-up-skill{
+	@extend .arrow-up;
+	position: absolute;
+	top: 25px;
+	left: 120px;
+}
+
+.info-skill-show{
+	position: absolute;
+	top: 3px;
+	left: 170px;
+}
+
+.info-skill-eye{
+	position: absolute;
+	top: 3px;
+	left: 200px;
+	height: 20px;
+	width: 20px;
+	background: url('../eye.png') no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+.user-info-skills{
+	@extend .user-info;
+	header{
+		padding: 20px;
+		border-bottom: 2px solid black;
+	}
+
+	.user-info-skills-header{
+		display: flex;
+		justify-content: space-around;
+		li{
+			display: inline-block;
+		}
+	}
+	.user-info-skills-left{
+		width: 50%;
+		float: left;
+		height: 280px;
+		overflow-y: auto;
+		border-right: 2px solid black;
+		padding: 20px;
+	}
+	.user-info-skills-right{
+		width: 50%;
+		float: right;
+		padding: 20px;
+		height: 280px;
+		overflow-y: auto;
+	}
+	footer{
+		height: 100px;
+		width: 100%;
+		border-top: 2px solid black;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		p{
+			padding: 0px 50px;
+		}
+	}
+}
+
+/************************
+USER INFO ITEM
+**************************/
+@for $b from 1 to 8{
+	.user-item-img#{$b}{
+		width: 50px;
+		height: 50px;
+		background: url('../item/item#{$b}.png') no-repeat center;
+		background-size: cover;
+		display: inline-block;
+		margin-top: 10px;
+		margin-left: 25px;
+	}
+}
+
+@for $c from 1 to 8{
+	.action-item-img#{$c}{
+		width: 30px;
+		height: 30px;
+		background: url('../item/item#{$c}.png') no-repeat center;
+		background-size: cover;
+		display: inline-block;
+		margin-top: 10px;
+		margin-left: 15px;
+	}
+}
+
+@for $f from 1 to 24{
+	.shop-item-img#{$f}{
+		width: 30px;
+		height: 30px;
+		background: url('../item/item#{$f}.png') no-repeat center;
+		background-size: cover;
+		display: inline-block;
+		margin-top: 10px;
+		margin-left: 15px;
+	}
+
+	.shop-equip-img#{$f}{
+		width: 30px;
+		height: 30px;
+		background: url('../equip/equip#{$f}.png') no-repeat center;
+		background-size: cover;
+		display: inline-block;
+		margin-top: 10px;
+		margin-left: 15px;
+	}
+}
+
+@for $d from 1 to 19{
+	.action-skill-img#{$d}{
+		width: 30px;
+		height: 30px;
+		background: url('../skill/skill#{$d}.png') no-repeat center;
+		background-size: cover;
+		display: inline-block;
+		margin-top: 10px;
+		margin-left: 5px;
+	}
+}
+
+
+.user-info-items{
+	@extend .user-info;
+	margin-left: 50px;
+	header{
+		padding: 20px;
+		border-bottom: 2px solid black;
+	}
+	.user-info-items-header{
+		display: flex;
+		justify-content: space-around;
+		li{
+			display: inline-block;
+		}
+	}
+	.user-info-items-main{
+		height: 280px;
+		overflow-y: auto;
+		li{
+			display: inline-block;
+			margin: 20px 20px 0px;
+			p{
+				display: inline-block;
+			}
+		}
+	}
+
+	footer{
+		height: 90px;
+		width: 100%;
+		background: white;
+		border-top: 2px solid black;
+	}
+
+	.user-info-items-description{
+		width: 70%;
+		float: left;
+		height: 95px;
+		overflow-y: auto;
+		padding: 10px;
+		p{
+			margin: 5px;
+		}
+	}
+
+	.user-info-items-options{
+		width: 30%;
+		float: right;
+		padding: 10px;
+		border-left: 2px solid black;
+		height: 95px;
+	}
+}
+
+/************************
+USER INFO EQUIPMENTS
+**************************/
+.user-equipment-img{
+	width: 50px;
+	height: 50px;
+	background: tomato;
+	display: inline-block;
+	margin-top: 10px;
+	margin-left: 5px;
+}
+
+@for $d from 1 to 14{
+	.user-equiped-img#{$d}{
+		width: 50px;
+		height: 50px;
+		background: url('../equip/equip#{$d}.png') no-repeat center;
+		background-size: cover;
+		display: inline-block;
+		margin-top: 10px;
+		margin-left: 10px;
+	}
+}
+
+@for $e from 1 to 14{
+	.user-equipment-img#{$e}{
+		width: 50px;
+		height: 50px;
+		background: url('../equip/equip#{$e}.png') no-repeat center;
+		background-size: cover;
+		display: inline-block;
+		margin-top: 10px;
+		margin-left: 10px;
+	}
+}
+
+.user-info-equipments{
+	@extend .user-info;
+	margin-left: 50px;
+	header{
+		padding: 20px;
+		border-bottom: 2px solid black;
+	}
+	.user-info-equipments-header{
+		display: flex;
+		justify-content: space-around;
+		li{
+			display: inline-block;
+		}
+	}
+	.user-info-equipments-main{
+		height: 280px;
+		overflow-y: auto;
+		li{
+			display: inline-block;
+			margin: 20px 20px 0px;
+			text-align: center;
+			p{
+				display: inline-block;
+			}
+		}
+	}
+	footer{
+		height: 90px;
+		width: 100%;
+		background: white;
+		border-top: 2px solid black;
+	}
+	.user-info-equipments-description{
+		width: 70%;
+		float: left;
+		height: 95px;
+		overflow-y: auto;
+		padding: 10px;
+		p{
+			margin: 5px;
+		}
+	}
+	.user-info-equipments-options{
+		width: 30%;
+		float: right;
+		padding: 10px;
+		border-left: 2px solid black;
+		height: 100px;
+	}
+}
+
+
+
+
+/**********************
+MAP STAGES V2
+***********************/
+.world-map-stages{
+	height: 2050px;
+	width: 2200px;
+	position: absolute;
+	overflow: hidden;
+}
+
+.outer-container-stuck{
+	overflow: hidden;
+}
+
+/*.world-map-ref{
+	transform: scale(1.9);
+	height: 2050px;
+	width: 2000px;
+	position: absolute;
+	left: 550px;
+	top: 0px;
+}*/
+
+
+$map2-top: 125px; $map2-left: 195px;
+$map34-top:217px; $map34-left:315px;
+$map3-top:285px; $map3-left:485px;
+$map4-top:270px; $map4-left:660px;
+$map5-top:163px; $map5-left:853px;
+$map6-top:190px; $map6-left:979px;
+$map7-top:285px; $map7-left:1053px;
+$map8-top:383px; $map8-left:1115px;
+$map9-top:495px; $map9-left:1188px;
+$map10-top:528px; $map10-left:1030px;
+$map11-top:570px; $map11-left:839px;
+$map12-top:698px; $map12-left:774px;
+$map13-top:753px; $map13-left:600px;
+$map35-top:770px; $map35-left:410px;
+$map14-top:883px; $map14-left:220px;
+$map15-top:947px; $map15-left:60px;
+$map16-top:1107px; $map16-left:75px;
+$map17-top:1188px; $map17-left:265px;
+$map18-top:1248px; $map18-left:440px;
+$map19-top:1340px; $map19-left:560px;
+$map20-top:1249px; $map20-left:710px;
+$map21-top:1281px; $map21-left:885px;
+$map22-top:1090px; $map22-left:960px;
+$map23-top:1265px; $map23-left:1060px;
+$map24-top:1265px; $map24-left:1265px;
+$map25-top:1273px; $map25-left:1392px;
+$map36-top:1437px; $map36-left:1532px;
+$map26-top:1489px; $map26-left:1619px;
+$map27-top:1560px; $map27-left:1794px;
+$map28-top:1755px; $map28-left:1666px;
+$map29-top:1692px; $map29-left:1522px;
+$map30-top:1660px; $map30-left:1379px;
+$map31-top:1677px; $map31-left:1220px;
+$map32-top:1693px; $map32-left:1092px;
+$map33-top:1708px; $map33-left:772px;
+
+
+$map2-top-locked: 105px; $map2-left-locked: 235px;
+$map3-top-locked: 325px; $map3-left-locked: 505px;
+$map4-top-locked: 330px; $map4-left-locked: 740px;
+$map5-top-locked: 83px; $map5-left-locked: 853px;
+$map6-top-locked: 135px; $map6-left-locked: 1009px;
+$map7-top-locked: 225px; $map7-left-locked: 1153px;
+$map8-top-locked: 363px; $map8-left-locked: 1035px;
+$map9-top-locked: 495px; $map9-left-locked: 1238px;
+$map10-top-locked: 628px; $map10-left-locked: 1060px;
+$map11-top-locked: 550px;$map11-left-locked:820px;
+$map12-top-locked:728px; $map12-left-locked:824px;
+$map13-top-locked:783px;$map13-left-locked:620px;
+$map14-top-locked:823px;$map14-left-locked:200px;
+$map15-top-locked:917px;$map15-left-locked:20px; //penis
+$map16-top-locked:1107px;$map16-left-locked:45px;
+$map17-top-locked:1208px;$map17-left-locked:265px;
+$map18-top-locked:1100px;$map18-left-locked:450px;
+$map19-top-locked:1300px;$map19-left-locked:500px;
+$map20-top-locked:1209px;$map20-left-locked:680px;
+$map21-top-locked:1300px;$map21-left-locked:895px;
+$map22-top-locked:1020px;$map22-left-locked:930px;//2nd boss
+$map23-top-locked:1265px;$map23-left-locked:1100px;
+$map24-top-locked:1295px;$map24-left-locked:1325px;
+$map25-top-locked:1103px;$map25-left-locked:1492px;
+//3rd shop
+$map26-top-locked:1509px;$map26-left-locked:1689px;
+$map27-top-locked:1500px;$map27-left-locked:1914px;//long
+$map28-top-locked:1805px;$map28-left-locked:1816px;
+$map29-top-locked:1802px;$map29-left-locked:1532px;
+$map30-top-locked:1700px;$map30-left-locked:1339px;
+$map31-top-locked:1637px;$map31-left-locked:1120px;
+$map32-top-locked:1703px;$map32-left-locked:992px;
+$map33-top-locked:1718px;$map33-left-locked:602px;
+
+
+@function mapTop($value){
+  @if $value==2{@return $map2-top;}
+  @else if $value==3{@return $map3-top;}
+	@else if $value==4{@return $map4-top;}
+	@else if $value==5{@return $map5-top;}
+	@else if $value==6{@return $map6-top;}
+	@else if $value==7{@return $map7-top;}
+	@else if $value==8{@return $map8-top;}
+	@else if $value==9{@return $map9-top;}
+	@else if $value==10{@return $map10-top;}
+	@else if $value==11{@return $map11-top;}
+	@else if $value==12{@return $map12-top;}
+	@else if $value==13{@return $map13-top;}
+	@else if $value==14{@return $map14-top;}
+	@else if $value==15{@return $map15-top;}
+	@else if $value==16{@return $map16-top;}
+	@else if $value==17{@return $map17-top;}
+	@else if $value==18{@return $map18-top;}
+	@else if $value==19{@return $map19-top;}
+	@else if $value==20{@return $map20-top;}
+	@else if $value==21{@return $map21-top;}
+	@else if $value==22{@return $map22-top;}
+	@else if $value==23{@return $map23-top;}
+	@else if $value==24{@return $map24-top;}
+	@else if $value==25{@return $map25-top;}
+	@else if $value==26{@return $map26-top;}
+	@else if $value==27{@return $map27-top;}
+	@else if $value==28{@return $map28-top;}
+	@else if $value==29{@return $map29-top;}
+	@else if $value==30{@return $map30-top;}
+	@else if $value==31{@return $map31-top;}
+	@else if $value==32{@return $map32-top;}
+	@else if $value==33{@return $map33-top;}
+	@else if $value==34{@return $map34-top;}
+	@else if $value==35{@return $map35-top;}
+	@else if $value==36{@return $map36-top;}
+  @else {@return $map4-top;}
+}
+
+@function mapLeft($value){
+  @if $value==2{@return $map2-left;}
+  @else if $value==3{@return $map3-left;}
+	@else if $value==4{@return $map4-left;}
+	@else if $value==5{@return $map5-left;}
+	@else if $value==6{@return $map6-left;}
+	@else if $value==7{@return $map7-left;}
+	@else if $value==8{@return $map8-left;}
+	@else if $value==9{@return $map9-left;}
+	@else if $value==10{@return $map10-left;}
+	@else if $value==11{@return $map11-left;}
+	@else if $value==12{@return $map12-left;}
+	@else if $value==13{@return $map13-left;}
+	@else if $value==14{@return $map14-left;}
+	@else if $value==15{@return $map15-left;}
+	@else if $value==16{@return $map16-left;}
+	@else if $value==17{@return $map17-left;}
+	@else if $value==18{@return $map18-left;}
+	@else if $value==19{@return $map19-left;}
+	@else if $value==20{@return $map20-left;}
+	@else if $value==21{@return $map21-left;}
+	@else if $value==22{@return $map22-left;}
+	@else if $value==23{@return $map23-left;}
+	@else if $value==24{@return $map24-left;}
+	@else if $value==25{@return $map25-left;}
+	@else if $value==26{@return $map26-left;}
+	@else if $value==27{@return $map27-left;}
+	@else if $value==28{@return $map28-left;}
+	@else if $value==29{@return $map29-left;}
+	@else if $value==30{@return $map30-left;}
+	@else if $value==31{@return $map31-left;}
+	@else if $value==32{@return $map32-left;}
+	@else if $value==33{@return $map33-left;}
+	@else if $value==34{@return $map34-left;}
+	@else if $value==35{@return $map35-left;}
+	@else if $value==36{@return $map36-left;}
+  @else {@return $map4-left;}
+}
+
+@function mapTopLocked($value){
+  @if $value==2{@return $map2-top-locked;}
+  @else if $value==3{@return $map3-top-locked;}
+	@else if $value==4{@return $map4-top-locked;}
+	@else if $value==5{@return $map5-top-locked;}
+	@else if $value==6{@return $map6-top-locked;}
+	@else if $value==7{@return $map7-top-locked;}
+	@else if $value==8{@return $map8-top-locked;}
+	@else if $value==9{@return $map9-top-locked;}
+	@else if $value==10{@return $map10-top-locked;}
+	@else if $value==11{@return $map11-top-locked;}
+	@else if $value==12{@return $map12-top-locked;}
+	@else if $value==13{@return $map13-top-locked;}
+	@else if $value==14{@return $map14-top-locked;}
+	@else if $value==15{@return $map15-top-locked;}
+	@else if $value==16{@return $map16-top-locked;}
+	@else if $value==17{@return $map17-top-locked;}
+	@else if $value==18{@return $map18-top-locked;}
+	@else if $value==19{@return $map19-top-locked;}
+	@else if $value==20{@return $map20-top-locked;}
+	@else if $value==21{@return $map21-top-locked;}
+	@else if $value==22{@return $map22-top-locked;}
+	@else if $value==23{@return $map23-top-locked;}
+	@else if $value==24{@return $map24-top-locked;}
+	@else if $value==25{@return $map25-top-locked;}
+	@else if $value==26{@return $map26-top-locked;}
+	@else if $value==27{@return $map27-top-locked;}
+	@else if $value==28{@return $map28-top-locked;}
+	@else if $value==29{@return $map29-top-locked;}
+	@else if $value==30{@return $map30-top-locked;}
+	@else if $value==31{@return $map31-top-locked;}
+	@else if $value==32{@return $map32-top-locked;}
+	@else if $value==33{@return $map33-top-locked;}
+	@else if $value==34{@return $map34-top-locked;}
+	@else if $value==35{@return $map35-top-locked;}
+	@else if $value==36{@return $map36-top-locked;}
+  @else {@return $map4-top-locked;}
+}
+
+@function mapLeftLocked($value){
+  @if $value==2{@return $map2-left-locked;}
+  @else if $value==3{@return $map3-left-locked;}
+	@else if $value==4{@return $map4-left-locked;}
+	@else if $value==5{@return $map5-left-locked;}
+	@else if $value==6{@return $map6-left-locked;}
+	@else if $value==7{@return $map7-left-locked;}
+	@else if $value==8{@return $map8-left-locked;}
+	@else if $value==9{@return $map9-left-locked;}
+	@else if $value==10{@return $map10-left-locked;}
+	@else if $value==11{@return $map11-left-locked;}
+	@else if $value==12{@return $map12-left-locked;}
+	@else if $value==13{@return $map13-left-locked;}
+	@else if $value==14{@return $map14-left-locked;}
+	@else if $value==15{@return $map15-left-locked;}
+	@else if $value==16{@return $map16-left-locked;}
+	@else if $value==17{@return $map17-left-locked;}
+	@else if $value==18{@return $map18-left-locked;}
+	@else if $value==19{@return $map19-left-locked;}
+	@else if $value==20{@return $map20-left-locked;}
+	@else if $value==21{@return $map21-left-locked;}
+	@else if $value==22{@return $map22-left-locked;}
+	@else if $value==23{@return $map23-left-locked;}
+	@else if $value==24{@return $map24-left-locked;}
+	@else if $value==25{@return $map25-left-locked;}
+	@else if $value==26{@return $map26-left-locked;}
+	@else if $value==27{@return $map27-left-locked;}
+	@else if $value==28{@return $map28-left-locked;}
+	@else if $value==29{@return $map29-left-locked;}
+	@else if $value==30{@return $map30-left-locked;}
+	@else if $value==31{@return $map31-left-locked;}
+	@else if $value==32{@return $map32-left-locked;}
+	@else if $value==33{@return $map33-left-locked;}
+	@else if $value==34{@return $map34-left-locked;}
+	@else if $value==35{@return $map35-left-locked;}
+	@else if $value==36{@return $map36-left-locked;}
+  @else {@return $map4-left-locked;}
+}
+
+
+
+@for $i from 2 to 37{
+	.stage-map#{$i}{
+		background: url('../map/map#{$i}.png') center no-repeat;
+		height: 250px;
+		width: 250px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: default;
+		position: absolute;
+		top: mapTop($i);
+		left: mapLeft($i);
+		animation: return#{$i} 1.5s forwards;
+	}
+}
+
+.stage-map1{
+	background: url('../map/map1.png') center no-repeat;
+	height: 250px;
+	width: 250px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: default;
+}
+
+@for $j from 1 to 34{
+	.stage-map#{$j}-locked{
+		position: absolute;
+		top:mapTopLocked($j);
+		left:mapLeftLocked($j);
+		animation: float#{$j} 1.8s linear alternate infinite;
+	}
+	@keyframes return#{$j} { 0%{top:mapTopLocked($j);left:mapLeftLocked($j);} 100%{top:mapTop($j);left:mapLeft($j);}}
+	@keyframes float#{$j} {0%{top:mapTopLocked($j)+10;} 20%{top:mapTopLocked($j)+5;} 40%{top:mapTopLocked($j)+2px;} 50%{top:mapTopLocked($j);} 60%{top:mapTopLocked($j)-2;} 80%{top:mapTopLocked($j)-5;} 100%{top:mapTopLocked($j)-10;}}
+}
+
+.stage-map1{position: absolute;top:60px;left:20px;z-index: 2;}
+.stage-map2{height: 160px;}
+.stage-map34{height: 230px;width: 210px;}
+.stage-map5{width: 150px;}
+.stage-map6{height: 160px; width: 150px;}
+.stage-map7{height: 160px; width: 160px;}
+.stage-map8{height: 160px; width: 270px;}
+.stage-map11{height: 200px;}
+.stage-map12{height: 200px;}
+.stage-map18{height: 160px;}
+.stage-map19{height: 200px; width: 200px;}
+.stage-map21{z-index: 2;}
+.stage-map23{z-index: 2;}
+.stage-map24{width: 160px;}
+.stage-map25{height: 300px; width: 160px;}
+.stage-map36{height: 160px; width: 200px;}
+.stage-map26{z-index: 2; height: 180px;}
+.stage-map27{height: 300px;}
+.stage-map33{width: 350px;}
+
+.stage-map1{position: absolute;top:60px;left:20px;z-index: 2;}
+.stage-map2-locked{height: 160px;}
+.stage-map34{position: absolute;top:217px;left:315px;height: 230px;width: 210px;}
+.stage-map3-locked{animation-delay: .5s;}
+.stage-map4-locked{animation-delay: .3s;}
+.stage-map5-locked{width: 150px;}
+.stage-map6-locked{height: 160px; width: 150px; animation-duration: .95s;}
+.stage-map7-locked{height: 160px; width: 160px; animation-delay: .1s;}
+.stage-map8-locked{height: 160px; width: 270px;}
+.stage-map9-locked{animation-delay: .4s;}
+.stage-map10-locked{}
+.stage-map11-locked{height: 200px;animation-delay: .2s;}
+.stage-map12-locked{height: 200px;}
+.stage-map13-locked{ animation-delay: .3s;}
+.stage-map35{position: absolute;top:770px;left:410px;}
+.stage-map14-locked{animation-delay: .5s;}
+.stage-map15-locked{animation-delay: .2s;}
+.stage-map16-locked{animation-duration: 1.2s;}
+.stage-map17-locked{animation-delay: .1s;}
+.stage-map18-locked{height: 160px; animation-duration: .9s;}
+.stage-map19-locked{height: 200px; width: 200px; animation-duration: 1.7s;}
+.stage-map20-locked{animation-delay: .4s;}
+.stage-map21-locked{z-index: 2;animation-delay: .6s;}
+.stage-map22-locked{animation-delay: .2s; animation-duration: 1.1s;}
+.stage-map23-locked{z-index: 2; animation-delay: .4s;}
+.stage-map24-locked{width: 160px;}
+.stage-map25-locked{height: 300px; width: 160px;animation-delay: .1s;}
+.stage-map36{position: absolute;top:1437px;left:1532px; height: 160px; width: 200px;}
+.stage-map26-locked{z-index: 2; height: 180px; animation-delay: .2s; animation-duration: 1.5s;}
+.stage-map27-locked{height: 300px; animation-delay: .4s;}
+.stage-map28-locked{}
+.stage-map29-locked{animation-duration: 1.3s;}
+.stage-map30-locked{animation-delay: .5s;}
+.stage-map31-locked{}
+.stage-map32-locked{animation-delay: .2s;}
+.stage-map33-locked{width: 350px; animation-duration: 1.2s;}
+
+.stage-unlock{
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255,.7);
+	border:2px solid black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	cursor: pointer;
+	z-index: 3;
+	h1{
+		margin-top: 12px;
+	}
+	&:hover{
+		animation: grow .3s forwards;
+		border: 2px solid black;
+	}
+	&:active{
+		border:0px solid white;
+		animation: grow .5s forwards;
+	}
+}
+
+.action{
+	position: fixed;
+	margin: 0 auto;
+	background: white;
+	height: 550px;
+	width: 700px;
+	overflow: hidden;
+	z-index: 10;
+	box-shadow: 0px 0px 3px black;
+}
+
+
+@media screen and (max-height: 450px) {
+	body{
+		margin-left: -5px;
+		margin-top: -5px;
+		overflow: hidden;
+
+	}
+
+	.front-page{
+		margin: 0 auto;
+	}
+
+	.outer-container{
+		width: 102vw;
+		height: 450px;
+		//height: 105vh;
+		margin: 0 auto;
+		position: relative;
+		overflow: auto;
+		background: linear-gradient(rgba(109, 185, 227,.3),rgba(3, 0, 102,.5));
+	}
+
+	.action{
+		width: 102vw;
+		overflow: auto;
+	}
+
+	.world-map-stages{
+		//width: 100vw;
+		//height:100vh;
+	}
+
+	.enemy-hp{
+		margin-bottom: 5px;
+	}
+	.enemy-mp{
+	}
+
+	.user-option{
+		margin-top: -20px;
+	}
+	.user-life{
+		margin-top: 20px;
+	}
+	.user-win{
+		margin-top: -20px;
+		padding: 15px;
+	}
+
+	.user-wait{
+		margin-top: -20px;
+		height: 90px;
+	}
+
+	.user-wait-clock{
+		width: 70px;
+		height: 70px;
+		background: url('../mac.png') center no-repeat;
+		background-size: cover;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	@for $i from 1 through 30{
+		.enemy-M#{$i}{
+			background: url('../monster/m#{$i}.png') no-repeat center;
+			background-size: cover;
+			height: 100px;
+			width: 100px;
+			top: 15px;
+			left: 50px;
+			position: relative;
+		}
+		.enemy-attack-M#{$i}{
+			height: 100px;
+			width: 100px;
+			top: 15px;
+			left: 50px;
+			background: url('../monster/attack/m#{$i}-attack.png') no-repeat center;
+			background-size: 700%;
+			animation: strickAni steps(6) 1s forwards;
+		}
+	}
+
+
+	.enemy-container{
+		height: 120px;
+	}
+
+	.shop-frontpage{
+		position: fixed;
+		margin: 0 auto;
+		background: white;
+		width: 102vw;
+		height: 450px;
+		overflow: hidden;
+		z-index: 10;
+		box-shadow: 0px 0px 3px black;
+	}
+
+	.shop-pic{
+		background: tomato;
+		height: 200px;
+		width: 100%;
+		z-index: 20;
+	}
+
+	.shop-options{
+		list-style: none;
+		font-size: 50px;
+		display: flex;
+		width: 100%;
+		flex-wrap: wrap;
+		z-index: 10;
+		background: white;
+		li{
+			margin: 0px 120px;
+			margin-top: 20px;
+			z-index: 10;
+
+		}
+	}
+
+	.shop-buy-items, .shop-sell-items{
+		list-style: none;
+		font-size: 20px;
+		height:410px;
+		overflow-y: auto;
+		width: 100%;
+		padding: 40px;
+		z-index: 20;
+		background: white;
+		position: fixed;
+		margin: 0 auto;
+		background: white;
+		height: 300px;
+		width: 102vw;
+		overflow: auto;
+		z-index: 10;
+		li{
+			margin-bottom: 20px;
+		}
+	}
+
+	.shop-buy-information, .shop-sell-information{
+			border-top: 2px solid black;
+			position: fixed;
+			margin: 0 auto;
+			background: white;
+			height: 155px;
+			width: 102vw;
+			overflow: hidden;
+			z-index: 10;
+			top: 290px;
+	}
+
+	.shop-buy-description, .shop-sell-description{
+		padding: 20px;
+		padding-left: 40px;
+		width: 60%;
+		height: 140px;
+		overflow-y: scroll;
+		float: left;
+	}
+
+	.shop-buy-options, .shop-sell-options{
+		width: 40%;
+		float: right;
+		height: 150px;
+		border-left: 2px solid black;
+		text-align: center;
+		font-size: 20px;
+		padding-top: 20px;
+	}
+
+	.user-info-options{
+		//position: absolute;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		padding: 20px;
+		height: 100%;
+		background: white;
+		border: 2px solid black;
+		border-radius: 5px;
+		z-index: 25;
+		p{
+			font-size: 20px;
+		}
+	}
+
+	.user-info{
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		margin-left: 0px;
+		width: 101vw;
+		height: 100%;
+		background: white;
+		border: 2px solid;
+		border-radius: 5px;
+		z-index: 30;
+	}
+
+	.load-complete-modal{
+		top:0px;
+		width: 102vw;
+		height: 100%;
+	}
+
+
+	.user-name-box{
+		margin-left: 150px;
+		top:200px;
+	}
+
+}
