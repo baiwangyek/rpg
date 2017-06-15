@@ -1412,6 +1412,7 @@ USER INFO
     font-size: 20px; }
 
 .user-info, .user-info-status, .user-info-skills, .user-info-items, .user-info-equipments {
+  position: fixed;
   top: 50px;
   width: 600px;
   height: 450px;
